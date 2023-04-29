@@ -28,20 +28,13 @@ public class Main {
         System.out.println("\tДобро пожаловать!");
 
         String secondName = NameMessage("Введите Фамилию: ");
-        System.out.println(secondName);
         String firstName = NameMessage("Введите Имя: ");
-        System.out.println(firstName);
         String lastName = NameMessage("Введите Отчество: ");
-        System.out.println(lastName);
         String date = DateMessage("Введите дату рождения dd.mm.yyyy: ");
-        System.out.println(date);
-
         long phoneNumber = NumMessage("Введите номер телефона: ");
-        System.out.println(phoneNumber);
-
         String gender = GenderMessage("Укажите ваш пол латиницей f или m: ");
-        System.out.println(gender);
 
+        System.out.println(secondName + " " + firstName + " " + lastName + " " + date + " " + "tel.:" + phoneNumber + " " + "sex:" + gender);
 
     }
     public static String NameMessage(String message) {
@@ -61,7 +54,14 @@ public class Main {
                     }
                 }
 
-                if (mes.isEmpty() || hasDigits) {
+                int countSpase = 0;
+                for (int i = 0; i < mes.length(); i++) {
+                    if (mes.charAt(i) == ' ') {
+                        countSpase += 1;
+                    }
+                }
+
+                if (mes.isEmpty() || hasDigits || countSpase != 0) {
                     throw new IOException();
                 }
                 break;
@@ -70,7 +70,7 @@ public class Main {
             }
         }
         return mes;
-    }     // ФИО проверяется на пустую строку и цифры.
+    }     // ФИО проверяется на пустую строку, пробел и цифры.
     public static String DateMessage(String message) {
         String date = null;
 
@@ -116,7 +116,6 @@ public class Main {
             try {
                 number = in.nextLong();
                 var length = String.valueOf(number).length();
-                System.out.println(length);
                 if (length != 11) {
                     throw new IOException();
                 }
