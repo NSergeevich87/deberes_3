@@ -1,9 +1,6 @@
 import java.io.IOException;
 import java.util.Scanner;
-
-
 public class Main {
-
     /*Напишите приложение, которое будет запрашивать у пользователя следующие данные в произвольном порядке, разделенные пробелом:
     Фамилия Имя Отчество дата рождения номер телефона пол
     Форматы данных: фамилия, имя, отчество - строки
@@ -22,20 +19,23 @@ public class Main {
     Однофамильцы должны записаться в один и тот же файл, в отдельные строки.
     Не забудьте закрыть соединение с файлом.
     При возникновении проблемы с чтением-записью в файл, исключение должно быть корректно обработано, пользователь должен увидеть стектрейс ошибки.*/
-
     public static void main(String[] args) {
         System.out.println();
         System.out.println("\tДобро пожаловать!");
 
-        String secondName = NameMessage("Введите Фамилию: ");
-        String firstName = NameMessage("Введите Имя: ");
-        String lastName = NameMessage("Введите Отчество: ");
-        String date = DateMessage("Введите дату рождения dd.mm.yyyy: ");
-        long phoneNumber = NumMessage("Введите номер телефона: ");
-        String gender = GenderMessage("Укажите ваш пол латиницей f или m: ");
+        while (true) {
+            String secondName = NameMessage("Введите Фамилию: ");
+            String firstName = NameMessage("Введите Имя: ");
+            String lastName = NameMessage("Введите Отчество: ");
+            String date = DateMessage("Введите дату рождения dd.mm.yyyy: ");
+            long phoneNumber = NumMessage("Введите номер телефона: ");
+            String gender = GenderMessage("Укажите ваш пол латиницей f или m: ");
 
-        System.out.println(secondName + " " + firstName + " " + lastName + " " + date + " " + "tel.:" + phoneNumber + " " + "sex:" + gender);
+            boolean answer = AskPerson("Хотите ввести данные еще одного человека? - Y/n");
+            if (answer == false) break;
 
+            System.out.println(secondName + " " + firstName + " " + lastName + " " + date + " " + "tel.:" + phoneNumber + " " + "sex:" + gender);
+        }
     }
     public static String NameMessage(String message) {
         String mes = null;
@@ -46,27 +46,24 @@ public class Main {
 
             try {
                 mes = in.nextLine();
-
                 boolean hasDigits = false;
                 for (int i = 0; i < mes.length() && !hasDigits; i++) {
                     if (Character.isDigit(mes.charAt(i))) {
                         hasDigits = true;
                     }
                 }
-
                 int countSpase = 0;
                 for (int i = 0; i < mes.length(); i++) {
                     if (mes.charAt(i) == ' ') {
                         countSpase += 1;
                     }
                 }
-
                 if (mes.isEmpty() || hasDigits || countSpase != 0) {
                     throw new IOException();
                 }
                 break;
             } catch (Exception e) {
-                System.out.println("Пожалуйств, введите данные корректно!");
+                System.out.println("Пожалуйств, введите данные корректно! Без пробелов и цифр.");
             }
         }
         return mes;
@@ -77,16 +74,12 @@ public class Main {
         while (true) {
             Scanner in = new Scanner(System.in);
             System.out.println(message);
-
             try {
                 date = in.nextLine();
-
                 int sumChar = 0;
                 for (int i = 0; i < date.length(); i++) {
                     sumChar += 1;
-                }
-                // Проверка на количество символов
-
+                } // Проверка на количество символов
                 int sumDigit = 0;
                 for (int i = 0; i < date.length(); i++) {
                     if (Character.isDigit(date.charAt(i))) {
@@ -98,12 +91,9 @@ public class Main {
                 }
                 break;
             } catch (Exception e) {
-                System.out.println("Пожалуйств, введите данные корректно!");
-            }
-
-            // Проверка на 8 цифр
+                System.out.println("Пожалуйств, введите дату рождения соглавно формату!");
+            } // Проверка на 8 цифр
         }
-
         return date;
     }     // Дата проверяется на количество символов и цифр.
     public static long NumMessage(String message) {
@@ -112,7 +102,6 @@ public class Main {
         while (true) {
             Scanner in = new Scanner(System.in);
             System.out.println(message);
-
             try {
                 number = in.nextLong();
                 var length = String.valueOf(number).length();
@@ -139,11 +128,29 @@ public class Main {
                 }
                 break;
             } catch (Exception e) {
-                System.out.println("Пожалуйств, введите данные корректно!");
+                System.out.println("Пожалуйств, введите данные корректно! f или m с маленькой буквы.");
             }
         }
         return gender;
     }   // Проверяется на количество символов и тип символа.
+    public static boolean AskPerson(String message) {
+        Scanner in = new Scanner(System.in);
+        String answer = null;
 
+        while (true) {
+            try {
+                System.out.println(message);
+                answer = in.nextLine();
 
+                if (answer.length() != 1 || answer.charAt(0) != 'Y' && answer.charAt(0) != 'n') {
+                    throw new IOException();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Введите заглавный символ Y если хотите и строчный если нет.");
+            }
+        }
+        if (answer.charAt(0) == 'Y') return true;
+        else return false;
+    }      // Проверка на корректный ввод Y/n.
 }
