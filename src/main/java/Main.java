@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.util.Scanner;
 
+
 public class Main {
 
     /*Напишите приложение, которое будет запрашивать у пользователя следующие данные в произвольном порядке, разделенные пробелом:
@@ -26,47 +27,124 @@ public class Main {
         System.out.println();
         System.out.println("\tДобро пожаловать!");
 
-        String secondName = NameMessage("Введите Фамилию");
+        String secondName = NameMessage("Введите Фамилию: ");
         System.out.println(secondName);
-        String firstName = NameMessage("Введите Имя");
+        String firstName = NameMessage("Введите Имя: ");
         System.out.println(firstName);
-        String lastName = NameMessage("Введите Отчество");
+        String lastName = NameMessage("Введите Отчество: ");
         System.out.println(lastName);
+        String date = DateMessage("Введите дату рождения dd.mm.yyyy: ");
+        System.out.println(date);
 
+        long phoneNumber = NumMessage("Введите номер телефона: ");
+        System.out.println(phoneNumber);
 
-
+        String gender = GenderMessage("Укажите ваш пол латиницей f или m: ");
+        System.out.println(gender);
 
 
     }
-
     public static String NameMessage(String message) {
+        String mes = null;
+
         while (true) {
             Scanner in = new Scanner(System.in);
-            System.out.println(message + ":");
-            String mes = in.nextLine();
-            {
-                if (mes.isEmpty()) {
-                    try {
-                        throw new IOException("Пустые строки вводить нельзя!");
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+            System.out.println(message);
+
+            try {
+                mes = in.nextLine();
+
+                boolean hasDigits = false;
+                for (int i = 0; i < mes.length() && !hasDigits; i++) {
+                    if (Character.isDigit(mes.charAt(i))) {
+                        hasDigits = true;
                     }
-                } else {
-                    return mes;
                 }
 
-        /*if (mes.isEmpty()) {
-            try {
-                throw new IOException("Пустые строки вводить нельзя!");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            return mes;
-        }*/
-
+                if (mes.isEmpty() || hasDigits) {
+                    throw new IOException();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Пожалуйств, введите данные корректно!");
             }
         }
+        return mes;
+    }     // ФИО проверяется на пустую строку и цифры.
+    public static String DateMessage(String message) {
+        String date = null;
+
+        while (true) {
+            Scanner in = new Scanner(System.in);
+            System.out.println(message);
+
+            try {
+                date = in.nextLine();
+
+                int sumChar = 0;
+                for (int i = 0; i < date.length(); i++) {
+                    sumChar += 1;
+                }
+                // Проверка на количество символов
+
+                int sumDigit = 0;
+                for (int i = 0; i < date.length(); i++) {
+                    if (Character.isDigit(date.charAt(i))) {
+                        sumDigit += 1;
+                    }
+                }
+                if (sumChar != 10 || sumDigit != 8) {
+                    throw new IOException();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Пожалуйств, введите данные корректно!");
+            }
+
+            // Проверка на 8 цифр
+        }
+
+        return date;
+    }     // Дата проверяется на количество символов и цифр.
+    public static long NumMessage(String message) {
+        long number = 0;
+
+        while (true) {
+            Scanner in = new Scanner(System.in);
+            System.out.println(message);
+
+            try {
+                number = in.nextLong();
+                var length = String.valueOf(number).length();
+                System.out.println(length);
+                if (length != 11) {
+                    throw new IOException();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Номер должен состоять из 11 цифр!");
+            }
+        }
+        return number;
+    }        // Номер проверяется на отсутствие букв и количество цифр.
+    public static String GenderMessage(String message) {
+        Scanner in = new Scanner(System.in);
+        String gender = null;
+
+        while (true) {
+            try {
+                System.out.println(message);
+                gender = in.nextLine();
+                if (gender.charAt(0) != 'f' && gender.charAt(0) != 'm' || gender.length() != 1) {
+                    throw new IOException();
+                }
+                break;
+            } catch (Exception e) {
+                System.out.println("Пожалуйств, введите данные корректно!");
+            }
+        }
+        return gender;
+    }   // Проверяется на количество символов и тип символа.
 
 
-    }
+}
