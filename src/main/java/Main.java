@@ -113,7 +113,7 @@ public class Main {
                 }
                 break;
             } catch (Exception e) {
-                System.out.println("Номер должен состоять из 11 цифр!");
+                System.out.println("Номер должен состоять из 11 цифр! Без пробелов.");
             }
         }
         return number;
