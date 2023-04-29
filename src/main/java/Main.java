@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.Scanner;
+import java.io.*;
 public class Main {
     /*Напишите приложение, которое будет запрашивать у пользователя следующие данные в произвольном порядке, разделенные пробелом:
     Фамилия Имя Отчество дата рождения номер телефона пол
@@ -30,6 +31,8 @@ public class Main {
             String date = DateMessage("Введите дату рождения dd.mm.yyyy: ");
             long phoneNumber = NumMessage("Введите номер телефона: ");
             String gender = GenderMessage("Укажите ваш пол латиницей f или m: ");
+
+            NewWriter(secondName, firstName, lastName, date, phoneNumber, gender);
 
             boolean answer = AskPerson("Хотите ввести данные еще одного человека? - Y/n");
             if (answer == false) break;
@@ -153,4 +156,20 @@ public class Main {
         if (answer.charAt(0) == 'Y') return true;
         else return false;
     }      // Проверка на корректный ввод Y/n.
+    public static void NewWriter(String sn, String fn, String ln, String d, long num, String gen) {
+
+        try
+        {
+            FileWriter writer = new FileWriter("People.txt", true);
+            BufferedWriter bufferWriter = new BufferedWriter(writer);
+            String str = sn + " " + fn + " " + ln + " " + d + " " + "tel.:" + num + " " + "sex:" + gen;
+            bufferWriter.write("\n" + str);
+            bufferWriter.close();
+            writer.write("\n" + str);
+            writer.flush();
+        }
+        catch(IOException ex){
+            System.out.println(ex.getMessage());
+        }
+    }
 }
