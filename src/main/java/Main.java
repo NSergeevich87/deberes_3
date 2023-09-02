@@ -153,8 +153,13 @@ public class Main {
                 System.out.println("Введите заглавный символ Y если хотите и строчный если нет.");
             }
         }
-        if (answer.charAt(0) == 'Y') return true;
-        else return false;
+        if (answer.charAt(0) == 'Y') {
+            return true;
+        }
+        else {
+            System.out.println("Спасибо! Все данные записыны в файл!");
+            return false;
+        }
     }      // Проверка на корректный ввод Y/n.
     public static void NewWriter(String sn, String fn, String ln, String d, long num, String gen) {
 
